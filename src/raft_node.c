@@ -34,6 +34,8 @@ typedef struct
     int flags;
 
     raft_node_id_t id;
+
+    int removed;
 } raft_node_private_t;
 
 raft_node_t* raft_node_new(void* udata, raft_node_id_t id)
@@ -189,4 +191,16 @@ int raft_node_is_addition_committed(raft_node_t* me_)
 {
     raft_node_private_t* me = (raft_node_private_t*)me_;
     return (me->flags & RAFT_NODE_ADDITION_COMMITTED) != 0;
+}
+
+int raft_node_is_removed(raft_node_t* me_)
+{
+    raft_node_private_t* me = (raft_node_private_t*)me_;
+    return me->removed;
+}
+
+void raft_node_set_removed(raft_node_t* me_)
+{
+    raft_node_private_t* me = (raft_node_private_t*)me_;
+    me->removed = 1;
 }
